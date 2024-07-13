@@ -225,23 +225,7 @@ void R3LIVE::publish_track_img( cv::Mat &img, double frame_cost_time = -1 )
     out_msg.header.stamp = ros::Time::now();               // Same timestamp and tf frame as input image
     out_msg.encoding = sensor_msgs::image_encodings::BGR8; // Or whatever
     cv::Mat pub_image = img.clone();
-    if ( frame_cost_time > 0 )
-    {
-        char fps_char[ 100 ];
-        sprintf( fps_char, "Per-frame cost time: %.2f ms", frame_cost_time );
-        // sprintf(fps_char, "%.2f ms", frame_cost_time);
-
-        if ( pub_image.cols <= 640 )
-        {
-            cv::putText( pub_image, std::string( fps_char ), cv::Point( 30, 30 ), cv::FONT_HERSHEY_COMPLEX, 1, cv::Scalar( 255, 255, 255 ), 2, 8,
-                         0 ); // 640 * 480
-        }
-        else if ( pub_image.cols > 640 )
-        {
-            cv::putText( pub_image, std::string( fps_char ), cv::Point( 30, 50 ), cv::FONT_HERSHEY_COMPLEX, 2, cv::Scalar( 255, 255, 255 ), 2, 8,
-                         0 ); // 1280 * 1080
-        }
-    }
+    
     out_msg.image = pub_image; // Your cv::Mat
     pub_track_img.publish( out_msg );
 }
